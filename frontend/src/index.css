@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.container{
+.container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(3, auto);
   row-gap: 30px;
   justify-content: space-evenly;
   margin: 30px auto;
