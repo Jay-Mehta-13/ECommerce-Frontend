@@ -15,6 +15,7 @@ export let signupUser = (userdata) => async (dispatch) => {
   localStorage.setItem(TOKEN, data.token);
   dispatch({ type: SIGNUPUSER, payload: data.user });
 };
+
 export let userLogin = (userdata) => async (dispatch) => {
   let response = await fetch(`${API_URI}/auth/login`, {
     method: "POST",
@@ -31,6 +32,7 @@ export let userLogin = (userdata) => async (dispatch) => {
   localStorage.setItem(TOKEN, data.token);
   dispatch({ type: LOGINUSER, payload: data.user });
 };
+
 export let getUserDetails = () => async (dispatch) => {
   let response = await fetch(`${API_URI}/auth/token`, {
     method: "POST",

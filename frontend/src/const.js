@@ -1,6 +1,7 @@
-export let API_URI="https://4820-14-99-102-226.ngrok-free.app"
+export let API_URI="https://0b25-14-99-102-226.ngrok-free.app"
 export let LOGINUSER="LOGINUSER"
 export let SIGNUPUSER="SIGNUPUSER"
+export let GETPRODUCTS="GETPRODUCTS"
 export let ISLOGGEDIN="ISLOGGEDIN"
 export let VERIFYTOKEN="VERIFYTOKEN"
 export let TOKEN="grabittoken"
