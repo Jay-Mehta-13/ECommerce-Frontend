@@ -1,6 +1,10 @@
 import React from "react";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 const Login = () => {
+  let { user } = useSelector((state) => state.user);
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900 h-[90vh] flex items-center">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 min min-w-full md:min-w-[900px]">
@@ -77,12 +81,12 @@ const Login = () => {
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/signup"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign up
-                </a>
+                </Link>
               </p>
             </form>
           </div>
