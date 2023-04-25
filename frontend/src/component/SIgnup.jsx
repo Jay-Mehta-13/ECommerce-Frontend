@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { signupUser } from "../State/actions/user";
 const Signup = () => {
   let [data, setdata] = useState({
@@ -8,31 +8,40 @@ const Signup = () => {
     email: "",
     number: "",
     password: "",
-    cpassword:"",
+    cpassword: "",
     address: "",
     dob: "",
   });
 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    if (event.target.name==="dob") {
-      setdata({...data,dob:event.target.value.toString()})
-    }else{
+    if (event.target.name === "dob") {
+      setdata({ ...data, dob: event.target.value.toString() });
+    } else {
       setdata({ ...data, [event.target.name]: event.target.value });
     }
   };
 
-const handleSubmit=()=>{
-  if (data.cpassword!==data.password) {
-    alert("password does not match")
-    return
-  }
-  if (data.number.length!==10) {
-    alert("Please enter valid phone number")
-  }
-  dispatch(signupUser(data))
-}
+  const handleSubmit = () => {
+    if (data.cpassword !== data.password) {
+      alert("password does not match");
+      return;
+    }
+    if (data.number.length !== 10) {
+      alert("Please enter valid phone number");
+    }
+    dispatch(signupUser(data));
+  };
+
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn]);
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900 h-[90vh] flex items-center">
       <form className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md  dark:bg-gray-800 dark:border-gray-700 mx-auto p-10 min min-w-[90%] md:min-w-[600px]">

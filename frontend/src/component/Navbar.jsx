@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { TOKEN } from "../const";
+import { getUserDetails, isUserLogin } from "../State/actions/user";
+import { useDispatch, useSelector } from "react-redux";
 const Navbar = () => {
+    const dispatch=useDispatch()
+    const {isLoggedIn}=useSelector(state=>state.user)
+    useEffect(()=>{
+      if (localStorage.getItem(TOKEN) && isLoggedIn==null) {
+        console.log("hy");
+          dispatch(getUserDetails())
+      }else{
+          dispatch(isUserLogin(false))
+      }
+    },[])
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 sticky top-0 shadow-md">
       <div className=" flex flex-wrap items-center justify-between w-full p-4">
@@ -15,7 +28,7 @@ const Navbar = () => {
           </span>
         </a>
 
-        <div className="flex items-center md:order-2">
+        <div className="flex items-center gap-10 md:order-2">
           <div class="flex">
             <button
               type="button"
@@ -86,14 +99,19 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
+          {
+            isLoggedIn==null || isLoggedIn==false?
+            <button>Login</button>
+            :
           <button
             type="button"
             data-dropdown-toggle="language-dropdown-menu"
-            className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white"
+            className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white gap-2"
           >
           <AccountCircleIcon/>
             Parth Pandya
           </button>
+}
         </div>
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
