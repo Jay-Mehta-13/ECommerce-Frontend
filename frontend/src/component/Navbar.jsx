@@ -120,7 +120,7 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
-          <ShoppingCartIcon onClick={toggle}/>
+          {isLoggedIn && <ShoppingCartIcon onClick={toggle}/>}
           {isLoggedIn == null || isLoggedIn == false ? (
             <button>
               <Link to="/login">Login</Link>
