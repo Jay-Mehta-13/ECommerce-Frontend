@@ -7,24 +7,19 @@ const Home = () => {
   const { products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   useEffect(() => {
-    setTimeout(() => {
       dispatch(getProducts());
-    }, 5000);
   }, []);
   useEffect(() => {
     console.log(products);
   }, [products]);
   return (
     <div className="container">
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
-      <Product />
+      {
+        products!==null &&
+        products.map(el=>{
+          return <Product data={el}/>
+        })
+      }
     </div>
   );
 };

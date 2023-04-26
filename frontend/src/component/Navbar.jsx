@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { TOKEN } from "../const";
 import { getUserDetails, isUserLogin } from "../State/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 const Navbar = () => {
-    const dispatch=useDispatch()
-    const {isLoggedIn}=useSelector(state=>state.user)
-    useEffect(()=>{
-      if (localStorage.getItem(TOKEN) && isLoggedIn==null) {
-        console.log("hy");
-          dispatch(getUserDetails())
-      }else{
-          // localStorage.getItem(TOKEN)
-          dispatch(isUserLogin(false))
-      }
-    },[])
+  const dispatch = useDispatch();
+  const { isLoggedIn, user } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (localStorage.getItem(TOKEN) && isLoggedIn == null) {
+      console.log("hy");
+      dispatch(getUserDetails());
+    } else {
+      // localStorage.getItem(TOKEN)
+      dispatch(isUserLogin(false));
+    }
+  }, []);
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 sticky top-0 shadow-md">
       <div className=" flex flex-wrap items-center justify-between w-full p-4">
@@ -101,19 +101,20 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
-          {
-            isLoggedIn==null || isLoggedIn==false?
-            <button><Link to="/login">Login</Link></button>
-            :
-          <button
-            type="button"
-            data-dropdown-toggle="language-dropdown-menu"
-            className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white gap-2"
-          >
-          <AccountCircleIcon/>
-            Parth Pandya
-          </button>
-}
+          {isLoggedIn == null || isLoggedIn == false ? (
+            <button>
+              <Link to="/login">Login</Link>
+            </button>
+          ) : (
+            <button
+              type="button"
+              data-dropdown-toggle="language-dropdown-menu"
+              className="inline-flex items-center font-medium justify-center px-4 py-2 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white gap-2"
+            >
+              <AccountCircleIcon />
+              {user.name}
+            </button>
+          )}
         </div>
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
@@ -121,45 +122,45 @@ const Navbar = () => {
         >
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
-              <a
-                href="#"
+              <Link
+                to="/"
                 className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
                 aria-current="page"
               >
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/products/appliance"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
-                About
-              </a>
+                appliance
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/products/clothing"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
-                Services
-              </a>
+                clothing
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/products/grocery"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
-                Pricing
-              </a>
+                grocery
+              </Link>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                to="/testomonials"
                 className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
               >
-                Contact
-              </a>
+                Testomonials
+              </Link>
             </li>
           </ul>
         </div>

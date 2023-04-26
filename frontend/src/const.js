@@ -1,4 +1,4 @@
-export let API_URI="https://59bd-14-99-102-226.ngrok-free.app"
+export let API_URI="http://localhost:3000"
 export let LOGINUSER="LOGINUSER"
 export let SIGNUPUSER="SIGNUPUSER"
 export let GETPRODUCTS="GETPRODUCTS"
