@@ -1,4 +1,11 @@
-import { API_URI, ISLOGGEDIN, LOGINUSER, SIGNUPUSER, TOKEN, VERIFYTOKEN } from "../../const";
+import {
+  API_URI,
+  ISLOGGEDIN,
+  LOGINUSER,
+  SIGNUPUSER,
+  TOKEN,
+  VERIFYTOKEN,
+} from "../../const";
 
 export let signupUser = (userdata) => async (dispatch) => {
   let response = await fetch(`${API_URI}/user`, {
@@ -11,12 +18,16 @@ export let signupUser = (userdata) => async (dispatch) => {
   let data = await response.json();
   if (!data.response) {
     alert(data.error);
+    localStorage.removeelseItem(TOKEN);
+    dispatch({ type: ISLOGGEDIN, payload: false });
+  } else {
+    localStorage.setItem(TOKEN, data.token);
+    dispatch({ type: SIGNUPUSER, payload: data.user });
   }
-  localStorage.setItem(TOKEN, data.token);
-  dispatch({ type: SIGNUPUSER, payload: data.user });
 };
 
 export let userLogin = (userdata) => async (dispatch) => {
+  console.log("run");
   let response = await fetch(`${API_URI}/auth/login`, {
     method: "POST",
     headers: {
@@ -27,10 +38,13 @@ export let userLogin = (userdata) => async (dispatch) => {
   let data = await response.json();
   if (!data.response) {
     alert(data.error);
+    localStorage.removeItem(TOKEN);
+    dispatch({ type: ISLOGGEDIN, payload: false });
+  } else {
+    console.log(data);
+    localStorage.setItem(TOKEN, data.token);
+    dispatch({ type: LOGINUSER, payload: data.user });
   }
-  console.log(data);
-  localStorage.setItem(TOKEN, data.token);
-  dispatch({ type: LOGINUSER, payload: data.user });
 };
 
 export let getUserDetails = () => async (dispatch) => {
@@ -46,9 +60,10 @@ export let getUserDetails = () => async (dispatch) => {
   if (!data.response) {
     alert(data.error);
     dispatch({ type: ISLOGGEDIN, payload: false });
-  }else{
+    localStorage.removeItem(TOKEN);
+  } else {
     dispatch({ type: VERIFYTOKEN, payload: data.user });
-}
+  }
 };
 
 export let isUserLogin = (data) => async (dispatch) => {

@@ -3,6 +3,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { TOKEN } from "../const";
 import { getUserDetails, isUserLogin } from "../State/actions/user";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 const Navbar = () => {
     const dispatch=useDispatch()
     const {isLoggedIn}=useSelector(state=>state.user)
@@ -11,6 +12,7 @@ const Navbar = () => {
         console.log("hy");
           dispatch(getUserDetails())
       }else{
+          // localStorage.getItem(TOKEN)
           dispatch(isUserLogin(false))
       }
     },[])
@@ -101,7 +103,7 @@ const Navbar = () => {
           </div>
           {
             isLoggedIn==null || isLoggedIn==false?
-            <button>Login</button>
+            <button><Link to="/login">Login</Link></button>
             :
           <button
             type="button"
