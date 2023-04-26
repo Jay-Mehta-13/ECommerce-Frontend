@@ -1,20 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { API_URI } from "../const";
+import { addToCart, removeItemFromCart } from "../State/actions/cart";
 
 const Product = (data) => {
-  console.log(data);
+  const dispatch = useDispatch();
+  const {cart}=useSelector(state=>state.cart)
+  const addProduct = () => {
+    dispatch(addToCart(data.data));
+  };
+  const removeProduct = () => {
+    dispatch(removeItemFromCart(data.data));
+  };
+
+  console.log(data.data._id in Object.keys(cart));
+  useEffect(()=>{
+console.log(cart);
+console.log(data.data._id, Object.keys(cart).includes(data.data._id));
+  },[cart])
   return (
     <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
         <img
           class="p-8 rounded-t-lg"
-          src={`http://localhost:3000/images/${data.data.productImage}`}
+          src={`${API_URI}/images/${data.data.productImage}`}
           alt="product image"
         />
       </a>
       <div class="px-5 pb-5">
         <a href="#">
           <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-           {data.data.productName}
+            {data.data.productName}
           </h5>
         </a>
         <div class="flex items-center mt-2.5 mb-5">
@@ -76,12 +92,22 @@ const Product = (data) => {
           <span class="text-3xl font-bold text-gray-900 dark:text-white">
             ${data.data.productPrice}
           </span>
-          <a
+          {
+ Object.keys(cart).includes(data.data._id)?
+           <a
             href="#"
+            onClick={removeProduct}
+            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+            REMOVE FROM CART
+          </a>: <a
+            href="#"
+            onClick={addProduct}
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
+            >
             Add to cart
           </a>
+          }
         </div>
       </div>
     </div>

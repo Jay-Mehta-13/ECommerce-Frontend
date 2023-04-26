@@ -1,12 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { TOKEN } from "../const";
 import { getUserDetails, isUserLogin } from "../State/actions/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import CloseIcon from '@mui/icons-material/Close';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { addToCart, clearCart, removeFromCart } from "../State/actions/cart";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { isLoggedIn, user } = useSelector((state) => state.user);
+  const { cart ,subtotal} = useSelector((state) => state.cart);
   useEffect(() => {
     if (localStorage.getItem(TOKEN) && isLoggedIn == null) {
       console.log("hy");
@@ -16,7 +22,20 @@ const Navbar = () => {
       dispatch(isUserLogin(false));
     }
   }, []);
+
+  let ref=useRef()
+  let toggle = () => {
+    if (ref.current.classList.contains("translate-x-full")) {
+      ref.current.classList.remove("translate-x-full")
+      ref.current.classList.add("translate-x-0")
+    }
+    else if (!ref.current.classList.contains("translate-x-full")) {
+      ref.current.classList.remove("translate-x-0")
+      ref.current.classList.add("translate-x-full")
+    }
+  }
   return (
+    <>
     <nav className="bg-white border-gray-200 dark:bg-gray-900 sticky top-0 shadow-md">
       <div className=" flex flex-wrap items-center justify-between w-full p-4">
         <a href="https://flowbite.com/" className="flex items-center">
@@ -101,6 +120,7 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
+          <ShoppingCartIcon onClick={toggle}/>
           {isLoggedIn == null || isLoggedIn == false ? (
             <button>
               <Link to="/login">Login</Link>
@@ -166,6 +186,38 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+
+    <div ref={ref} className="sidecart fixed h-[100vh] w-96 top-28 md:top-16 right-0  bg-green-400  transform transition-transform translate-x-full z-10">
+        <div className='bg-green-400 p-10 pt-14 z-10'>
+
+          <h2 className='text-2xl'>Shooping Cart</h2>
+          <span onClick={toggle} className='cursor-pointer absolute top-5 right-3 text-xl'><CloseIcon/></span>
+          <ol className='list-decimal flex flex-col'>
+            {Object.keys(cart).length === 0 ? <div className='my-3'>Your cart is empty </div> :
+            Object.keys(cart).map((id)=>{
+              // console.log(item);
+            return (
+              <li key={`${id}`}>
+                <div className="flex my-3">
+                  <div className='p-3'>
+                   {cart[id].productName}
+                  </div>
+                  <div className='flex flex-row space-x-2 items-center justify-center'>
+                    <AddCircleIcon  className='text-pink-700 cursor-pointer' onClick={()=>dispatch(addToCart(cart[id]))}/> <span> {cart[id].qty}</span><RemoveCircleIcon  className='text-pink-700 cursor-pointer' onClick={()=>dispatch(removeFromCart(cart[id]))}/>
+                  </div>
+                </div>
+              </li>)
+            })
+          }
+          </ol>
+          <div className='my-3 font-bold text-center'>Amount:&nbsp; ${subtotal}</div>
+          <div className='flex'>
+            <Link href={"/Checkout"}><a> <button className="flex mr-2 text-white bg-indigo-500 border-0 p-2 focus:outline-none hover:bg-indigo-600 rounded text-sm items-center my-4">Check out</button></a></Link>
+            <button onClick={()=>{dispatch(clearCart())}} className="flex mr-2 text-white bg-indigo-500 border-0 p-2 focus:outline-none hover:bg-indigo-600 rounded text-sm items-center my-4">Clear Cart</button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
