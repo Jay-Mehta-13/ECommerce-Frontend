@@ -45,8 +45,10 @@ export let getUserDetails = () => async (dispatch) => {
   console.log("here", data);
   if (!data.response) {
     alert(data.error);
-  }
-  dispatch({ type: VERIFYTOKEN, payload: data.user });
+    dispatch({ type: ISLOGGEDIN, payload: false });
+  }else{
+    dispatch({ type: VERIFYTOKEN, payload: data.user });
+}
 };
 
 export let isUserLogin = (data) => async (dispatch) => {

@@ -7,7 +7,9 @@ const Home = () => {
   const { products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProducts());
+    setTimeout(() => {
+      dispatch(getProducts());
+    }, 5000);
   }, []);
   useEffect(() => {
     console.log(products);
