@@ -4,7 +4,7 @@ export let getProducts = () => async (dispatch) => {
   console.log("iuppper");
   let data;
   try {
-    let response=await fetch(`${API_URI}/product`)
+    let response = await fetch(`${API_URI}/product`)
     data = await response.json();
     console.log(data);
     if (!data.response) {
